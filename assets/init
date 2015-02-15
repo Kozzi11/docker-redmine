@@ -54,6 +54,9 @@ SSL_VERIFY_CLIENT=${SSL_VERIFY_CLIENT:-off}
 UNICORN_WORKERS=${UNICORN_WORKERS:-2}
 UNICORN_TIMEOUT=${UNICORN_TIMEOUT:-60}
 
+REDMINE_UID=${REDMINE_UID:-}
+REDMINE_GID=${REDMINE_GID:-}
+
 # is a mysql or postgresql database linked?
 # requires that the mysql or postgresql containers have exposed
 # port 3306 and 5432 respectively.
@@ -180,6 +183,14 @@ case "${REDMINE_HTTPS}" in
     ;;
 esac
 
+if [ -n "${REDMINE_UID}" ]; then
+  usermod -o -u ${REDMINE_UID} redmine
+fi
+
+if [ -n "${REDMINE_GID}" ]; then
+  groupmod -o -g ${REDMINE_GID} redmine
+fi
+
 # create the .ssh directory
 mkdir -p ${DATA_DIR}/dotfiles/.ssh/
 chown -R redmine:redmine ${DATA_DIR}/dotfiles/.ssh/
@@ -213,6 +224,9 @@ mkdir -m 0755 -p ${LOG_DIR}/redmine     && chown -R redmine:redmine ${LOG_DIR}/r
 # fix permission and ownership of ${DATA_DIR}
 chmod 755 ${DATA_DIR}
 chown redmine:redmine ${DATA_DIR}
+
+# fix ownership of ${INSTALL_DIR}
+chown -R redmine:redmine ${INSTALL_DIR}
 
 # set executable flags on ${DATA_DIR} (needed if mounted from a data-only
 # container using --volumes-from)

@@ -2,6 +2,7 @@
 
 **latest**
 - update postgresql client to the latest version
+- add `REDMINE_UID` and `REDMINE_GID`
 
 **2.6.1**
 - added `NGINX_WORKERS` configuration option

@@ -16,7 +16,7 @@ apt-get update
 apt-get install -y libcurl4-openssl-dev libssl-dev libmagickcore-dev libmagickwand-dev \
   libmysqlclient-dev libpq-dev libxslt1-dev libffi-dev libyaml-dev
 
-# add redmine user
+# add redmine user and group
 adduser --disabled-login --gecos 'Redmine' redmine
 passwd -d redmine
 
